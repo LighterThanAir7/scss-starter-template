@@ -1,0 +1,23 @@
+$box-shadows: (
+    'xs': (0px, 1px, 2px, 0px),
+    'sm': (0px, 2px, 4px, 0px),
+    'md': (0px, 4px, 6px, 0px),
+    'lg': (0px, 10px, 15px, -3px),
+    'xl': (0px, 20px, 25px, -5px),
+    '2xl': (0px, 30px, 40px, -10px),
+    '3xl': (0px, 50px, 60px, -15px),
+    'inset-sm': (inset, 2px, 2px, 4px, 0px),
+    'inset-md': (inset, 4px, 4px, 8px, 0px),
+    'inset-lg': (inset, -10px, -10px, 20px, 0px)
+);
+
+$text-shadows: (
+    'xxs': 0px 1px 1px,        // Suptilna sjena za male tekstove
+    'xs': 1px 1px 2px,         // Vrlo lagana sjena
+    'sm': 1px 2px 3px,         // Mala sjena
+    'md': 2px 2px 4px,         // Srednja sjena
+    'lg': 2px 3px 5px,         // Veća sjena
+    'xl': 3px 3px 6px,         // Velika sjena
+    '2xl': 3px 4px 8px,        // Ekstra velika sjena
+    '3xl': 4px 5px 10px        // Najveća sjena
+);

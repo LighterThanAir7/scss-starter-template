@@ -1,0 +1,189 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:meta';
+@use 'sass:string';
+@use 'sass:list';
+@use 'sizes' as *;
+@use 'typography' as *;
+@use 'breakpoints' as *;
+@use 'borders' as *;
+@use 'shadows' as *;
+
+@function fs($font-size) {
+    $num: if(meta.type-of($font-size) == 'number', $font-size, null);
+    $unit: if(meta.type-of($font-size) == 'number', math.unit($font-size), null);
+
+    // Unitless: use value from map (e.g., rem)
+    @if $unit == '' {
+        @if map.has-key($font-sizes, $font-size) {
+            @return map.get($font-sizes, $font-size);
+        } @else {
+            @error '$font-sizes does not have that size!';
+        }
+    }
+
+        // If unit is px, convert to rem and find matching value
+    @else if $unit == 'px' {
+        // Strip the px unit, divide by 16, and add rem unit
+        $rem-value: math.div(strip-unit($num), 16) * 1rem;
+
+        // Iterate through the map to find a value that matches our rem value
+        @each $key, $value in $font-sizes {
+            @if $value == $rem-value {
+                // Return the key if a match is found
+                @return $font-size;
+            }
+        }
+
+        @error 'No matching font size found in $font-sizes for #{$font-size}!';
+    }
+        // Handle other units
+    @else if $unit == 'rem' or $unit == 'em' {
+        $key: strip-unit($num); // Extract numeric part
+        @if map.has-key($font-sizes, $key) {
+            @return map.get($font-sizes, $key);
+        } @else {
+            @error '$font-sizes does not have that size!';
+        }
+    }
+    @else {
+        @error 'Unsupported unit. Use unitless, px, rem or em.';
+    }
+}
+
+@function fw($font-weight) {
+    @if map.has-key($font-weights, $font-weight) {
+        @return map.get($font-weights, $font-weight);
+    } @else {
+        @error '$font-weights does not have that size!';
+    }
+}
+
+@function lh($line-height) {
+    $num: if(meta.type-of($line-height) == 'number', $line-height, null);
+    $unit: if(meta.type-of($line-height) == 'number', math.unit($line-height), null);
+
+    // Unitless: use value from map (e.g., 1.2, 1.5, 2)
+    @if $unit == '' {
+        @if map.has-key($line-heights, $line-height) {
+            @return map.get($line-heights, $line-height);
+        } @else {
+            @error '$line-heights does not have that size!';
+        }
+    }
+        // If unit is px|rem|em, check map and return value with requested unit
+    @else if $unit == 'px' or $unit == 'rem' or $unit == 'em' {
+        $key: $num / 1#{$unit}; // Extract numeric part (e.g., 24px → 24)
+        @if map.has-key($line-heights, $key) {
+            @return $key * 1#{$unit}; // Return 24px or 24rem
+        } @else {
+            @error '$line-heights does not have that size!';
+        }
+    }
+    @else {
+        @error 'Unsupported unit. Use unitless, px, rem or em.';
+    }
+}
+
+@function size($size) {
+    // Ako je broj bez jedinice
+    @if meta.type-of($size) == 'number' and math.unit($size) == '' {
+        @if map.has-key($sizes, $size) {
+            @return map.get($sizes, $size);
+        } @else {
+            @error '$sizes does not have that size!';
+        }
+    }
+        // Ako ima jedinicu (px, rem, em, ...)
+    @else if meta.type-of($size) == 'number' {
+        $unit: math.unit($size);
+        $num: strip-unit($size);
+        @if map.has-key($sizes, $num) {
+            @return #{$num}#{$unit}; // Vrati broj s originalnom jedinicom
+        } @else {
+            @error '$sizes does not have that size!';
+        }
+    }
+    @else {
+        @error 'Unsupported unit. Use unitless, px, rem or em.';
+    }
+}
+
+@function mq($breakpoint) {
+    @if map.has-key($breakpoints, $breakpoint) {
+        @return map.get($breakpoints, $breakpoint);
+    } @else {
+        @error '$breakpoints does not have that size!';
+    }
+}
+
+@function radius($key) {
+    @if map.has-key($border-radiuses, $key) {
+        @return map.get($border-radiuses, $key);
+    } @else {
+        @error '$border-radiuses does not have that key!';
+    }
+}
+
+// >---------------------------------> Helper Functions <------------------------------------<
+
+// Use thorugh mixin @include box-shadow();
+@function get-box-shadow($box-shadow) {
+    @if map.has-key($box-shadows, $box-shadow) {
+        @return map.get($box-shadows, $box-shadow);
+    } @else {
+        @error '$box-shadows does not have that size!';
+    }
+}
+
+// Use thorugh mixin @include text-shadow();
+@function get-text-shadow($text-shadow) {
+    @if map.has-key($text-shadows, $text-shadow) {
+        @return map.get($text-shadows, $text-shadow);
+    } @else {
+        @error '$text-shadows does not have that size!';
+    }
+}
+
+@function strip-unit($value) {
+    @return math.div($value, ($value * 0 + 1)); // Uklanjanje jedinice (npr. 16px → 16)
+}
+
+@function str-split($string, $separator) {
+    $result: ();
+    $index: string.index($string, $separator);
+
+    @if $index == null {
+        @return ($string);
+    }
+
+    $slice: string.slice($string, 1, $index - 1);
+    $result: list.append($result, $slice);
+
+    @return list.join($result, str-split(string.slice($string, $index + string.length($separator)), $separator));
+}
+
+@function extract-var-name($var-string) {
+    $var-string: "#{$var-string}"; // Convert to string
+
+    @if string.index($var-string, "var(--") == 1 {
+        // Extract variable name without the var(--...) wrapper
+        @return string.slice($var-string, 7, string.length($var-string) - 1);
+    } @else {
+        // Already a plain variable name
+        @return $var-string;
+    }
+}
+
+// Function to ensure variables are in CSS var() format
+@function ensure-var-format($var-string) {
+    $var-string: "#{$var-string}"; // Convert to string
+
+    @if string.index($var-string, "var(--") == 1 {
+        // Already in var() format
+        @return $var-string;
+    } @else {
+        // Convert to var() format
+        @return var(--#{$var-string});
+    }
+}

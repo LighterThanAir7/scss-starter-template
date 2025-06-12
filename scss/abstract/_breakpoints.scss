@@ -1,0 +1,12 @@
+// Breakpoint values are defined in pixels becuase of customizable base font size
+// and we don't want breakpoints to change when font size changes because it might break the layout
+
+$breakpoints: (
+    xxs: 480px,
+    xs: 576px,
+    sm: 768px,
+    md: 992px,
+    lg: 1200px,
+    xl: 1400px,
+    xxl: 1660px
+);

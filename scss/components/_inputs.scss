@@ -1,0 +1,467 @@
+@use '../abstract/index' as *;
+
+.form {
+    &__input {
+        label {
+            margin-bottom: size(8);
+        }
+
+        &--required {
+            abbr {
+                color: var(--clr-danger);
+                text-decoration: none;
+                margin-left: size(4);
+            }
+        }
+    }
+}
+
+input {
+    display: block;
+    padding: size(8);
+    font-size: var(--fs-250);
+    line-height: 22px;
+    border-radius: size(4);
+    transition: all 200ms ease-in-out;
+    border: 1px solid var(--clr-neutral-500);
+    outline: 2px solid transparent;
+    background-color: var(--body-bg-clr);
+
+    // Filled
+    &:not(:placeholder-shown) {
+        color: var(--clr-neutral-700);
+        border-color: var(--clr-neutral-700);
+    }
+
+    // Empty
+    &::placeholder {
+        color: var(--clr-neutral-400);
+    }
+
+    &:placeholder-shown {
+        border-color: var(--clr-neutral-300);
+    }
+
+    &:hover:not(:disabled):not(:focus) {
+        border-color: var(--clr-neutral-500);
+    }
+
+    &:focus {
+        border-color: var(--clr-primary-500);
+        @include box-shadow('md', rgba(0, 0, 0, 0.12));
+    }
+
+    &[data-focus-source="keyboard"] {
+        outline-color: var(--clr-primary-500);
+        border-color: var(--clr-primary-500);
+    }
+
+    &:disabled {
+        color: var(--clr-neutral-400);
+        border-color: var(--clr-neutral-300);
+        background-color: var(--clr-neutral-100);
+    }
+
+    &::selection {
+        background-color: var(--clr-primary-500);
+        color: var(--body-bg-clr);
+    }
+
+    &:-webkit-autofill, :autofill {
+        -webkit-text-fill-color: var(--clr-primary-800);
+        -webkit-box-shadow: 0 0 0 1000px var(--clr-primary-50) inset;
+        border-color: var(--clr-primary-500);
+    }
+
+    // >----------------------------------> Input - Checkbox <-----------------------------------<
+
+    &[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 20px;
+        width: 20px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+
+        &:checked + i {
+            background-color: var(--clr-primary-500);
+            border-color: var(--clr-primary-500);
+
+            &::before {
+                opacity: 1;
+            }
+
+            &:focus {
+                & + i {
+
+                }
+            }
+        }
+
+        &:focus {
+            & + i {
+                border-color: var(--clr-primary-500);
+                @include box-shadow('md', rgba(0, 0, 0, 0.12))
+            }
+        }
+
+        &:focus-visible {
+            & + i {
+                outline: 3px solid var(--clr-primary-500);
+                outline-offset: 2px;
+                border-color: var(--clr-primary-500);
+                @include box-shadow('md', rgba(0, 0, 0, 0.12))
+            }
+        }
+
+        &:hover:not(:disabled):not(:focus) {
+            & + i {
+                border-color: var(--clr-primary-500);
+            }
+        }
+
+        & + i {
+            @include flex($ai: center, $jc: center, $inline: true);
+            position: relative;
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            background-color: var(--body-bg-clr);
+            border: 1px solid var(--clr-neutral-500);
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-size: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+
+            &::before {
+                transition: opacity 0.2s ease-in-out;
+                color: var(--body-bg-clr);
+                opacity: 0;
+            }
+        }
+    }
+
+    // >------------------------------------> Input - Radio <------------------------------------<
+
+    &[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        height: 20px;
+        width: 20px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+
+        &:checked + span {
+            background-color: var(--clr-primary-500);
+            border-color: var(--clr-primary-500);
+
+            @include pseudo() {
+                opacity: 1;
+            }
+        }
+
+        &:focus {
+            & + span {
+                border-color: var(--clr-primary-500);
+                @include box-shadow('md', rgba(0, 0, 0, 0.12))
+            }
+        }
+
+        &:focus-visible {
+            & + span {
+                outline: 3px solid var(--clr-primary-500);
+                outline-offset: 2px;
+                border-color: var(--clr-primary-500);
+                @include box-shadow('md', rgba(0, 0, 0, 0.12))
+            }
+        }
+
+        &:hover:not(:disabled):not(:focus) {
+            & + span {
+                border-color: var(--clr-primary-500);
+            }
+        }
+
+        & + span {
+            @include flex($ai: center, $jc: center, $inline: true);
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            background-color: var(--body-bg-clr);
+            border: 1px solid var(--clr-neutral-500);
+            border-radius: radius(full);
+            transition: all 0.2s;
+            font-size: 12px;
+            box-sizing: border-box;
+            cursor: pointer;
+
+            @include pseudo() {
+                width: 8px;
+                height: 8px;
+                background-color: var(--body-bg-clr);
+                border-radius: radius(full);
+                opacity: 0;
+                transition: all 0.2s;
+            }
+        }
+    }
+
+    // >----------------------------------> Input - Password <-----------------------------------<
+    &[type="password"],
+    &[type="text"] {
+        // padding-right: size(32);
+
+        & ~ [data-type="password-toggle-icon"] {
+            position: absolute;
+            right: size(10);
+            bottom: size(6);
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--clr-neutral-500);
+            transition: all 0.2s;
+            padding: size(6);
+            border-radius: 50%;
+
+            &:hover {
+                background-color: var(--clr-primary-50);
+                color: var(--input-accent-clr);
+            }
+
+            &.is-visible {
+                &::before {
+                    content: "\e9ce"; // TODO: Change with actual icon of closed eye / crossed eye
+                }
+            }
+        }
+    }
+
+    &[type="range"] {
+        // For now it's defined in '_range-filter.scss'
+    }
+
+    // >-----------------------------------> Select Styles <-------------------------------------<
+
+    select {
+        font-size: var(--fs-250);
+        line-height: 22px;
+        border-radius: size(4);
+        transition: all 200ms ease-in-out;
+        border: 1px solid var(--input-border-clr);
+        outline: var(--input-outline-offset, 2px) solid transparent;
+        padding: size(8) size(32) size(8) size(8);
+        color: var(--body-clr);
+
+        &:has(option[selected]) {
+            border-color: var(--input-filled-border-clr);
+        }
+
+        &:hover:not(:disabled) {
+            color: var(--body-clr);
+            border-color: var(--input-hover-border-clr);
+        }
+
+        &:focus {
+            color: unset;
+            border-color: var(--input-focus-border-clr) !important;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12);
+        }
+    }
+}
+
+// >------------------------------------> Label Styles <-------------------------------------<
+
+label + input {
+    margin-top: size(4);
+}
+
+label {
+    display: inline-block;
+    position: relative;
+    color: var(--clr-neutral-800);
+
+    input {
+        margin-top: size(4);
+    }
+
+    abbr {
+        color: var(--clr-neutral-600);
+        font-size: var(--fs-200);
+        text-decoration: none;
+        margin-left: size(4);
+    }
+
+    &:has(input[required]) abbr {
+        color: var(--clr-danger);
+        text-decoration: none;
+        margin-left: size(4);
+    }
+
+    &:has(.succes-msg) {
+        input, textarea {
+            border-color: var(--clr-success);
+
+            &:hover:not(:focus) {
+                border-color: var(--clr-success-shade);
+
+                & ~ .succes-msg {
+                    color: var(--clr-success-shade);
+                }
+            }
+
+            &:focus {
+                border-color: var(--clr-success);
+                @include box-shadow('md', rgba(40, 180, 40, 0.15));
+
+                &::selection {
+                    background: var(--clr-success);
+                    color: var(--body-bg-clr);
+                }
+
+                & ~ .succes-msg {
+                    color: var(--clr-success);
+
+                    &:hover {
+                        color: var(--clr-success);
+                    }
+                }
+            }
+
+            &[data-focus-source="keyboard"] {
+                outline-color: var(--clr-success);
+
+                &:hover {
+                    border-color: var(--clr-success-shade);
+                }
+
+                &::selection {
+                    background-color: var(--clr-success);
+                    color: var(--body-bg-clr);
+                }
+            }
+        }
+    }
+
+    &:has(.error-msg) {
+        input, textarea {
+            border-color: var(--clr-danger);
+
+            &:hover:not(:focus) {
+                border-color: var(--clr-danger-shade);
+
+                & ~ .error-msg {
+                    color: var(--clr-danger-shade);
+                }
+            }
+
+            &:focus {
+                border-color: var(--clr-danger);
+                @include box-shadow('md', rgba(255, 80, 80, 0.2));
+
+                &::selection {
+                    background: var(--clr-danger);
+                    color: var(--body-bg-clr);
+                }
+
+                & ~ .error-msg {
+                    color: var(--clr-danger);
+
+                    &:hover {
+                        color: var(--clr-danger);
+                    }
+                }
+            }
+
+            &[data-focus-source="keyboard"] {
+                outline-color: var(--clr-danger);
+
+                &::selection {
+                    background-color: var(--clr-danger-tint);
+                    color: var(--body-bg-clr);
+                }
+            }
+        }
+    }
+
+    &:has(input[type="checkbox"]),
+    &:has(input[type="radio"]) {
+        @include flex($ai: center, $g: size(8));
+        cursor: pointer;
+        margin-bottom: 0;
+    }
+}
+
+// >----------------------------------> Textarea Styles <------------------------------------<
+
+textarea {
+    transition: all 200ms ease-in-out;
+    border: 1px solid var(--input-border-clr);
+    outline: var(--input-outline-offset, 2px) solid transparent;
+    resize: none;
+    display: block;
+    width: 100%;
+    min-height: 8rem;
+    max-height: 16rem;
+    overflow-y: scroll;
+    padding: size(8);
+
+    &:placeholder-shown {
+        border-color: var(--input-border-clr);
+    }
+
+    &:hover:not(:disabled):not(:focus) {
+        border-color: var(--input-hover-border-clr);
+    }
+
+    &:focus {
+        border-color: var(--input-focus-border-clr);
+        @include box-shadow('md', rgba(0, 0, 0, 0.12));
+    }
+
+    &[data-focus-source="keyboard"] {
+        outline-color: var(--input-accent-clr);
+        border-color: var(--input-accent-clr);
+    }
+
+    &:disabled {
+        background-color: var(--clr-neutral-100);
+    }
+
+    &::selection {
+        background-color: var(--input-accent-clr);
+        color: var(--clr-white);
+    }
+
+    &:-webkit-autofill, :autofill {
+        -webkit-text-fill-color: #222;
+        -webkit-box-shadow: 0 0 0 1000px #fff inset;
+    }
+
+    &[data-focus-source="keyboard"] {
+        outline-color: var(--input-accent-clr);
+        border-color: var(--input-accent-clr);
+    }
+}
+
+input, textarea {
+    & ~ .succes-msg,
+    & ~ .error-msg {
+        display: block;
+        font-size: var(--fs-250);
+        margin-top: size(4);
+        transition: 0.2s ease-in-out;
+    }
+
+    & ~ .succes-msg {
+        color: var(--clr-success);
+    }
+
+    & ~ .error-msg {
+        color: var(--clr-danger);
+    }
+}

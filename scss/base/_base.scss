@@ -1,0 +1,499 @@
+@use '../abstract' as *;
+
+/*
+  The base.scss file defines global typography styles (headers, paragraphs, labels...),
+  reusable styles, and foundational styles for elements like html, body, blockquote, and kbd.
+  It establishes a consistent foundation for the rest of the styles.
+*/
+
+// >-----------------------------------> Global Styles <-------------------------------------<
+
+/*
+  The html and body tags are used to set global baseline settings,
+  ensuring consistency across the document and establishing
+  foundational styles for layout and behavior.
+*/
+
+html {
+    font-family: var(--custom-ff-primary, var(--ff-primary));
+    font-size: var(--custom-base-font-size, var(--base-font-size));
+    scroll-snap-type: y mandatory;
+    line-height: 1.5;
+}
+
+body {
+    color: var(--body-clr);
+    background-color: var(--body-bg-clr);
+    scroll-behavior: smooth;
+    width: 100% !important; // TODO: Figure out why class search is appearing on body and setting width to 600px
+
+    > header {
+        color: var(--header-clr);
+        background-color: var(--header-bg-clr);
+    }
+
+    > footer {
+        color: var(--footer-clr);
+        background-color: var(--footer-bg-clr);
+    }
+
+    &.home {
+        background-color: var(--body-alt-bg-clr);
+    }
+
+    // TODO: Implement traditional links where needed on page by giving them class link on <a> tag
+    /*a.link {
+        color: var(--body-link-clr);
+
+        &:hover {
+            color: var(--body-link-hover-clr);
+        }
+    }*/
+}
+
+// >----------------------------------> Display Styles <-------------------------------------<
+/*
+    Display styles are larger, more prominent text styles used for emphasis, often bigger than
+    standard h1-h6 elements typically used for hero sections, headlines, or key messages.
+
+    NOTE: Default margins were intentionally left out from display classes because these
+    are used for visually prominent text elements that often appear outside of normal
+    text flow (such as in grids, hero sections, or cards). Applying margins here could
+    break layouts or require frequent overrides. Add margins locally if needed in
+    specific contexts where you need them with utility classes or BEM block.
+*/
+
+.display {
+    &-1 {
+        font-family: var(--d1-ff);
+        font-weight: var(--d1-fw);
+        letter-spacing: var(--d1-ls);
+        text-transform: var(--d1-tt);
+
+        @include responsive-property(font-size, var(--d1-fs), var(--d1-sf));
+        @include responsive-property(line-height, var(--d1-lh), var(--d1-sf));
+
+        &--margins {
+            margin-bottom: size(48);
+
+            @include mq(lg) {
+                margin-bottom: size(40);
+            }
+
+            @include mq(sm) {
+                margin-bottom: size(32);
+            }
+        }
+    }
+
+    &-2 {
+        font-family: var(--d2-ff);
+        font-weight: var(--d2-fw);
+        letter-spacing: var(--d2-ls);
+        text-transform: var(--d2-tt);
+
+        @include responsive-property(font-size, var(--d2-fs), var(--d2-sf));
+        @include responsive-property(line-height, var(--d2-lh), var(--d2-sf));
+
+        &--margins {
+            margin-bottom: size(40);
+
+            @include mq(lg) {
+                margin-bottom: size(32);
+            }
+
+            @include mq(sm) {
+                margin-bottom: size(24);
+            }
+        }
+    }
+
+    &-3 {
+        font-family: var(--d3-ff);
+        font-weight: var(--d3-fw);
+        letter-spacing: var(--d3-ls);
+        text-transform: var(--d3-tt);
+
+        @include responsive-property(font-size, var(--d3-fs), var(--d3-sf));
+        @include responsive-property(line-height, var(--d3-lh), var(--d3-sf));
+
+        &--margins {
+            margin-bottom: size(32);
+
+            @include mq(lg) {
+                margin-bottom: size(28);
+            }
+
+            @include mq(md) {
+                margin-bottom: size(20);
+            }
+
+            @include mq(sm) {
+                margin-bottom: size(24);
+            }
+        }
+    }
+
+    &-4 {
+        font-family: var(--d4-ff);
+        font-weight: var(--d4-fw);
+        letter-spacing: var(--d4-ls);
+        text-transform: var(--d4-tt);
+
+        @include responsive-property(font-size, var(--d4-fs), var(--d4-sf));
+        @include responsive-property(line-height, var(--d4-lh), var(--d4-sf));
+
+        &--margins {
+            margin-bottom: size(28);
+
+            @include mq(lg) {
+                margin-bottom: size(24);
+            }
+
+            @include mq(sm) {
+                margin-bottom: size(20);
+            }
+        }
+    }
+
+    &-5 {
+        font-family: var(--d5-ff);
+        font-weight: var(--d5-fw);
+        letter-spacing: var(--d5-ls);
+        text-transform: var(--d5-tt);
+
+        @include responsive-property(font-size, var(--d5-fs), var(--d5-sf));
+        @include responsive-property(line-height, var(--d5-lh), var(--d5-sf));
+
+        &--margins {
+            margin-bottom: size(24);
+
+            @include mq(lg) {
+                margin-bottom: size(20);
+            }
+
+            @include mq(sm) {
+                margin-bottom: size(16);
+            }
+        }
+    }
+
+    &-6 {
+        font-family: var(--d6-ff);
+        font-weight: var(--d6-fw);
+        letter-spacing: var(--d6-ls);
+        text-transform: var(--d6-tt);
+
+        @include responsive-property(font-size, var(--d6-fs), var(--d6-sf));
+        @include responsive-property(line-height, var(--d6-lh), var(--d6-sf));
+
+        &--margins {
+            margin-bottom: size(20);
+
+            @include mq(lg) {
+                margin-bottom: size(16);
+            }
+
+            @include mq(sm) {
+                margin-bottom: size(12);
+            }
+        }
+    }
+}
+
+
+// >----------------------------------> Heading Styles <-------------------------------------<
+/*
+  Headings (h1-h6) define the hierarchy of content, ranging from the most important (h1) to
+  the least (h6). They are used for structure and readability, unlike display styles, which
+  focus on visual impact.
+*/
+
+h1 {
+    font-family: var(--h1-ff);
+    font-weight: var(--h1-fw);
+    letter-spacing: var(--h1-ls);
+    text-transform: var(--h1-tt);
+    margin-bottom: size(48);
+
+    @include responsive-property(font-size, var(--h1-fs), var(--h1-sf));
+    @include responsive-property(line-height, var(--h1-lh), var(--h1-sf));
+
+    @include mq(lg) {
+        margin-bottom: size(40);
+    }
+
+    @include mq(sm) {
+        margin-bottom: size(32);
+    }
+
+    @include mq(xs) {
+        margin-bottom: size(24);
+    }
+}
+
+h2 {
+    font-family: var(--h2-ff);
+    font-weight: var(--h2-fw);
+    letter-spacing: var(--h2-ls);
+    text-transform: var(--h2-tt);
+    margin-bottom: size(40);
+
+    @include responsive-property(font-size, var(--h2-fs), var(--h2-sf));
+    @include responsive-property(line-height, var(--h2-lh), var(--h2-sf));
+
+    @include mq(lg) {
+        margin-bottom: size(32);
+    }
+
+    @include mq(sm) {
+        margin-bottom: size(28);
+    }
+
+    @include mq(xs) {
+        margin-bottom: size(24);
+    }
+}
+
+h3 {
+    font-family: var(--h3-ff);
+    font-weight: var(--h3-fw);
+    letter-spacing: var(--h3-ls);
+    text-transform: var(--h3-tt);
+    margin-bottom: size(32);
+
+    @include responsive-property(font-size, var(--h3-fs), var(--h3-sf));
+    @include responsive-property(line-height, var(--h3-lh), var(--h3-sf));
+
+    @include mq(lg) {
+        margin-bottom: size(28);
+    }
+
+    @include mq(sm) {
+        margin-bottom: size(24);
+    }
+
+    @include mq(xs) {
+        margin-bottom: size(20);
+    }
+}
+
+h4 {
+    font-family: var(--h4-ff);
+    font-weight: var(--h4-fw);
+    letter-spacing: var(--h4-ls);
+    text-transform: var(--h4-tt);
+    margin-bottom: size(24);
+
+    @include responsive-property(font-size, var(--h4-fs), var(--h4-sf));
+    @include responsive-property(line-height, var(--h4-lh), var(--h4-sf));
+
+    @include mq(lg) {
+        margin-bottom: size(20);
+    }
+
+    @include mq(sm) {
+        margin-bottom: size(18);
+    }
+
+    @include mq(xs) {
+        margin-bottom: size(16);
+    }
+}
+
+h5 {
+    font-family: var(--h5-ff);
+    font-weight: var(--h5-fw);
+    letter-spacing: var(--h5-ls);
+    text-transform: var(--h5-tt);
+    margin-bottom: size(20);
+
+    @include responsive-property(font-size, var(--h5-fs), var(--h5-sf));
+    @include responsive-property(line-height, var(--h5-lh), var(--h5-sf));
+
+    @include mq(lg) {
+        margin-bottom: size(18);
+    }
+
+    @include mq(sm) {
+        margin-bottom: size(16);
+    }
+
+    @include mq(xs) {
+        margin-bottom: size(14);
+    }
+}
+
+h6 {
+    font-family: var(--h6-ff);
+    font-weight: var(--h6-fw);
+    letter-spacing: var(--h6-ls);
+    text-transform: var(--h6-tt);
+    margin-bottom: size(18);
+
+    @include responsive-property(font-size, var(--h6-fs), var(--h6-sf));
+    @include responsive-property(line-height, var(--h6-lh), var(--h6-sf));
+
+    @include mq(md) {
+        margin-bottom: size(16);
+    }
+
+    @include mq(sm) {
+        margin-bottom: size(14);
+    }
+
+    @include mq(xs) {
+        margin-bottom: size(12);
+    }
+}
+
+// >---------------------------------> Paragraph Styles <------------------------------------<
+
+/*
+  Paragraphs (<p>) define body text with styles for readability,
+  adjusting line height, font size, and spacing to improve legibility.
+*/
+
+p, span {
+    font-size: fs(300);
+    line-height: lh(300);
+    font-weight: fw(400);
+
+    @include mq(md) {
+        font-size: fs(250);
+        line-height: lh(200);
+    }
+
+    @include mq(xs) {
+        font-size: fs(200);
+        line-height: lh(100);
+    }
+
+    &.lead {
+        font-size: fs(450);
+        line-height: lh(450);
+
+        @include mq(lg) {
+            font-size: fs(400);
+            line-height: lh(400);
+        }
+
+        @include mq(sm) {
+            font-size: fs(350);
+            line-height: lh(350);
+        }
+    }
+
+    &.xl {
+        font-size: fs(400);
+        line-height: lh(400);
+
+        @include mq(lg) {
+            font-size: fs(350);
+            line-height: lh(350);
+        }
+    }
+
+    &.lg {
+        font-size: fs(350);
+        line-height: lh(350);
+
+        @include mq(lg) {
+            font-size: fs(300);
+            line-height: lh(300);
+        }
+    }
+
+    &.sm {
+        font-size: fs(250);
+        line-height: lh(250);
+    }
+
+    &.xs {
+        font-size: fs(200);
+        line-height: lh(200);
+    }
+}
+
+label {
+    font-size: fs(300);
+    line-height: lh(250);
+    font-weight: fw(400);
+
+    &.lg {
+        font-size: fs(400);
+        line-height: lh(350);
+    }
+
+    &.sm {
+        font-size: fs(250);
+        line-height: lh(200);
+    }
+
+    &.xs {
+        font-size: fs(200);
+        line-height: lh(50);
+    }
+}
+
+// >-----------------------------------> Link Styles <---------------------------------------<
+
+a {
+    &.link {
+        user-select: none;
+        color: var(--clr-primary-500);
+        @include pseudo($bottom: -2) {
+            background-color: currentColor;
+            width: 0;
+            height: 2px;
+            @include transition(width, 200ms, 'ease-in-out');
+        }
+
+        &:visited {
+            color: var(--clr-danger);
+        }
+
+        &:hover {
+            &::before {
+                width: 100%;
+            }
+        }
+    }
+}
+
+// >------------------------------> Keyboard Input Styles <----------------------------------<
+
+/*
+  The <kbd> element represents user input (typically keyboard input).
+  This style enhances its appearance by giving it a button-like look,
+  with a subtle shadow, padding, and a monospace font for readability.
+  It includes hover effects for better interaction feedback.
+*/
+
+kbd {
+    background-color: var(--clr-white);
+    color: var(--clr-neutral-700);
+    border-radius: 0.25rem;
+    padding: size(4) size(8);
+    font-size: fs(300);
+    border: 1px solid var(--clr-neutral-400);
+    box-shadow:
+            inset 0 -2px 0 var(--clr-neutral-400),
+            0 1px 1px rgba(0,0,0,0.05);
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-weight: fw(600);
+    user-select: none;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: var(--clr-neutral-200);
+        transform: translateY(1px);
+        box-shadow:
+                inset 0 -1px 0 var(--clr-neutral-400),
+                0 0 1px rgba(0,0,0,0.05);
+    }
+}
+
+:disabled {
+    cursor: not-allowed;
+}

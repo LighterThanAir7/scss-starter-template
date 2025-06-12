@@ -1,0 +1,9 @@
+$durations: (
+    'fastest': 100ms,   // najbrže, instant feedback (hover, klik)
+    'faster': 150ms,    // vrlo brzo, micro-interactions
+    'fast': 200ms,      // brzo, male animacije
+    'normal': 300ms,    // standardno trajanje za većinu animacija
+    'slow': 500ms,      // sporo, veće promjene
+    'slower': 750ms,    // vrlo sporo, rijetko korišteno
+    'slowest': 1000ms   // najsporije, specijalni efekti
+);
