@@ -54,27 +54,22 @@
 
 // >--------------------------------------> Colors <-----------------------------------------<
 
-@each $color, $shades in $colors {
-    // Posebna pravila za generic i status
-    @if $color == "generic" or $color == "status" {
-        @each $shade, $value in $shades {
-            .clr-#{"" + $shade} {
-                color: var(--clr-#{"" + $shade}) !important;
+@each $color, $value in $colors {
+    @if type-of($value) == 'map' {
+        @each $shade, $hex in $value {
+            .clr-#{$color}-#{$shade} {
+                color: var(--clr-#{$color}-#{$shade}) !important;
             }
-            .bg-#{"" + $shade} {
-                background-color: var(--clr-#{"" + $shade}) !important;
+            .bg-#{$color}-#{$shade} {
+                background-color: var(--clr-#{$color}-#{$shade}) !important;
             }
         }
-    }
-        // Standardna pravila za ostale kategorije
-    @else {
-        @each $shade, $value in $shades {
-            .clr-#{"" + $color}-#{"" + $shade} {
-                color: var(--clr-#{"" + $color}-#{"" + $shade}) !important;
-            }
-            .bg-#{"" + $color}-#{"" + $shade} {
-                background-color: var(--clr-#{"" + $color}-#{"" + $shade}) !important;
-            }
+    } @else {
+        .clr-#{$color} {
+            color: var(--clr-#{$color}) !important;
+        }
+        .bg-#{$color} {
+            background-color: var(--clr-#{$color}) !important;
         }
     }
 }
@@ -150,7 +145,7 @@
 }
 
 .justify-content-center {
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .justify-content-end {
@@ -159,6 +154,10 @@
 
 .ml-auto {
     margin-left: auto;
+}
+
+.mx-auto {
+    margin-inline: auto;
 }
 
 @include mq(md) {
@@ -185,6 +184,10 @@
 
 .text-italic {
     font-style: italic;
+}
+
+.text-capitalize {
+    text-transform: capitalize;
 }
 
 .sr-only {

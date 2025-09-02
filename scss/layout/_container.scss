@@ -1,11 +1,13 @@
 @use '../abstract' as *;
 
 .container {
+    @include flex($d: column);
     max-width: $container-width;
     width: 100%;
+    min-height: 100vh;
     margin: 0 auto;
-    padding: 0 20px;
     box-sizing: border-box;
+    background-color: rgba(clr(white), .02);
 
     &--full {
         max-width: unset;

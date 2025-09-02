@@ -1,0 +1,12 @@
+@use '../abstract' as *;
+
+.header {
+    @include flex($jc: space-between, $ai: center);
+    border-bottom: 1px solid rgba(clr(white), .1);
+    height: $header-height;
+    padding-inline: size(36);
+
+    @include mq(sm) {
+        padding-inline: size(12);
+    }
+}

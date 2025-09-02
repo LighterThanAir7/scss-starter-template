@@ -1,0 +1,34 @@
+@use '../abstract' as *;
+
+.footer {
+    @include flex($ai: center, $jc: space-between);
+    margin-top: auto;
+    height: $footer-height;
+    border-top: 1px solid rgba(clr(white), .1);
+    padding-inline: size(36);
+    color: rgba(clr(white), .25);
+
+    &-nav {
+        &__list {
+            @include flex($g: size(32));
+        }
+
+        &__item {
+            @include transition(color, fast, ease-in-out);
+
+            &:hover {
+                color: clr(white);
+            }
+        }
+    }
+
+    @include mq(sm) {
+        padding-inline: size(12);
+
+        &-nav {
+            &__list {
+                gap: size(12);
+            }
+        }
+    }
+}

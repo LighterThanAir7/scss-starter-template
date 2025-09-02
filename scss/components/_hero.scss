@@ -1,0 +1,43 @@
+@use '../abstract' as *;
+
+.hero {
+    &__title {
+        margin-bottom: 0;
+        margin-top: size(80);
+    }
+
+    &__description {
+        font-size: fs(550);
+        margin-top: size(24);
+        margin-bottom: size(40);
+        opacity: .75;
+
+        span {
+            font-weight: fw(700);
+            font-style: italic;
+            color: clr(accent);
+            text-decoration: underline;
+        }
+    }
+
+    &__popular {
+        @include flex($g: size(16));
+        margin-top: size(20);
+        font-size: fs(200);
+        color: rgba(clr(white), .5);
+
+        &-list {
+            @include flex($g: size(16));
+        }
+
+        &-item {
+            font-weight: fw(600);
+        }
+    }
+
+    @include mq(lg) {
+        &__description {
+            font-size: fs(450);
+        }
+    }
+}

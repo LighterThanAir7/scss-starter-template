@@ -8,6 +8,32 @@
 @use 'breakpoints' as *;
 @use 'borders' as *;
 @use 'shadows' as *;
+@use 'colors' as *;
+
+@function clr($color, $shade: null) {
+    @if not map-has-key($colors, $color) {
+        @error 'Color "#{$color}" not found in $colors map.';
+    }
+
+    $value: map-get($colors, $color);
+
+    // Flat color (e.g., white, black)
+    @if type-of($value) != 'map' {
+        // Ignore $shade if provided
+        @return $value;
+    }
+
+    // Nested color map (e.g., primary)
+    @if $shade == null {
+        @error 'Color "#{$color}" requires a shade (e.g., clr(#{$color}, 500)).';
+    }
+
+    @if not map-has-key($value, $shade) {
+        @error 'Shade "#{$shade}" not found for color "#{$color}".';
+    }
+
+    @return map-get($value, $shade);
+}
 
 @function fs($font-size) {
     $num: if(meta.type-of($font-size) == 'number', $font-size, null);

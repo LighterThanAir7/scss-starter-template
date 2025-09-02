@@ -1,0 +1,34 @@
+@use '../abstract' as *;
+
+.nav {
+    height: 100%;
+
+    &__list {
+        @include flex($g: size(16));
+        font-size: fs(200);
+        height: 100%;
+    }
+
+    &__item {
+        position: relative;
+        color: rgba(clr(white), .5);
+        align-content: center;
+        @include transition(color, fast, ease-in-out);
+
+        &--active {
+            color: clr(white);
+        }
+
+        &:hover {
+            color: clr(white);
+        }
+    }
+
+    &__indicator {
+        position: absolute;
+        width: 100%;
+        height: size(4);
+        bottom: 0;
+        background-color: clr(accent);
+    }
+}
